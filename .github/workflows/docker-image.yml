@@ -36,6 +36,12 @@ jobs:
     
     - name: Push Docker image
       run: |
+        echo "Pushing ${{ secrets.DOCKER_USERNAME }}/monolithic:$IMAGE_TAG"
         docker push ${{ secrets.DOCKER_USERNAME }}/monolithic:$IMAGE_TAG
+        sleep 5
+        echo "Pushing ${{ secrets.DOCKER_USERNAME }}/monolithic:$VERSION"
         docker push ${{ secrets.DOCKER_USERNAME }}/monolithic:$VERSION
+        sleep 5
+        echo "Pushing ${{ secrets.DOCKER_USERNAME }}/monolithic:latest"
         docker push ${{ secrets.DOCKER_USERNAME }}/monolithic:latest
+        sleep 5
