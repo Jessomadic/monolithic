@@ -31,8 +31,8 @@ jobs:
 
     - name: Build Docker image
       run: |
-        IMAGE_TAG=${GITHUB_SHA::8} # Get the first 8 characters of the commit SHA
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/monolithic:latest -t ${{ secrets.DOCKER_USERNAME }}/monolithic:$IMAGE_TAG -t ${{ secrets.DOCKER_USERNAME }}/monolithic:$VERSION .
+        IMAGE_TAG=${GITHUB_SHA::8}
+        docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/monolithic:latest -t ${{ secrets.DOCKER_USERNAME }}/monolithic:$IMAGE_TAG -t ${{ secrets.DOCKER_USERNAME }}/monolithic:$VERSION .
     
     - name: Push Docker image
       run: |
