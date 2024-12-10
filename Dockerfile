@@ -3,8 +3,8 @@ LABEL version=3
 LABEL description="Single caching container for caching game content at LAN parties."
 LABEL maintainer="LanCache.Net Team <team@lancache.net>"
 
-RUN	apt-get update							;\
-	apt-get install -y jq git				;
+RUN apt-get update							;\
+    apt-get install -y jq git				;
 
 ENV GENERICCACHE_VERSION=2 \
     CACHE_MODE=monolithic \
@@ -26,11 +26,12 @@ COPY overlay/ /
 
 RUN rm /etc/nginx/sites-enabled/* /etc/nginx/stream-enabled/* ;\
     rm /etc/nginx/conf.d/gzip.conf ;\
-    chmod 754  /var/log/tallylog ; \
+    # Check if /var/log/tallylog exists before changing permissions
+    [ -f /var/log/tallylog ] && chmod 754 /var/log/tallylog || echo "File /var/log/tallylog not found" ; \
     id -u ${WEBUSER} &> /dev/null || adduser --system --home /var/www/ --no-create-home --shell /bin/false --group --disabled-login ${WEBUSER} ;\
     chmod 755 /scripts/*		;\
-	  mkdir -m 755 -p /data/cache		;\
-	  mkdir -m 755 -p /data/info		;\
+    mkdir -m 755 -p /data/cache		;\
+    mkdir -m 755 -p /data/info		;\
     mkdir -m 755 -p /data/logs		;\
     mkdir -m 755 -p /tmp/nginx/		;\
     chown -R ${WEBUSER}:${WEBUSER} /data/	;\
